@@ -1,31 +1,25 @@
 import json
 import requests
 
-from flask import redirect, request, url_for, render_template
+from flask import redirect, request, url_for, render_template, Blueprint, current_app
 from flask_login import (
     current_user,
     login_required,
     login_user,
     logout_user,
 )
-from automation import (
-    app, 
-    login_manager,
-    client, 
-    db,
-    GOOGLE_CLIENT_ID, 
-    GOOGLE_CLIENT_SECRET, 
-    GOOGLE_DISCOVERY_URL
-)
+from automation import login_manager, client, db
 from automation.models import User
 
 
-@app.route("/")
+auth = Blueprint('auth', __name__)
+
+@auth.route("/")
 def index():
     return render_template("index.html", current_user=current_user)
 
 
-@app.route("/login")
+@auth.route("/login")
 def login():
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
@@ -41,7 +35,7 @@ def login():
     return redirect(request_uri)
 
 
-@app.route("/login/callback")
+@auth.route("/login/callback")
 def callback():
     # Get authorization code Google sent back to you
     code = request.args.get("code")
@@ -62,7 +56,7 @@ def callback():
         token_url,
         headers=headers,
         data=body,
-        auth=(GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET),
+        auth=(current_app.config["GOOGLE_CLIENT_ID"], current_app.config["GOOGLE_CLIENT_SECRET"]),
     )
 
     # Parse the tokens!
@@ -101,17 +95,17 @@ def callback():
     login_user(user)
 
     # Send user back to homepage
-    return redirect(url_for("index"))
+    return redirect(url_for("auth.index"))
 
 
-@app.route("/logout")
+@auth.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for("index"))
+    return redirect(url_for("auth.index"))
 
 
 def get_google_provider_cfg():
-    return requests.get(GOOGLE_DISCOVERY_URL).json()
+    return requests.get(current_app.config["GOOGLE_DISCOVERY_URL"]).json()
 
 
