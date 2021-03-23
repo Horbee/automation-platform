@@ -80,13 +80,19 @@ def callback():
     else:
         return "User email not available or not verified by Google.", 400
 
+    is_empty = len(User.query.all()) == 0
+
     # Find user in db
     user = User.query.filter_by(sub=unique_id).first()
 
     # Doesn't exist? Add it to the database.
     if not user:
         user = User(
-            sub=unique_id, name=users_name, email=users_email, profile_pic=picture
+            sub=unique_id, 
+            name=users_name, 
+            email=users_email, 
+            profile_pic=picture, 
+            admin=True if is_empty else False
         )
         db.session.add(user)
         db.session.commit()

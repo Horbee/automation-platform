@@ -14,6 +14,7 @@ class User(db.Model, UserMixin):
     sub = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     name = db.Column(db.String(1000), nullable=False)
+    admin = db.Column(db.Boolean, default=False)
     profile_pic = db.Column(db.String(1000))
     joined_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
