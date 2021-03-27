@@ -1,19 +1,35 @@
 import "./App.css";
 
-import logo from "./logo.svg";
-import { GoogleOauthButton } from "./oauth-button/GoogleOauthButton";
+import React from "react";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
+
+import { Routes } from "./constants/routes";
+import { ConditionalRoute } from "./custom-components/ConditionalRoute";
+import { HomePage } from "./routes/home/HomePage";
+import { LoginPage } from "./routes/login/LoginPage";
+import { userStore } from "./stores/userStore";
 
 function App() {
+  const isLoggedIn = userStore((state) => state.isLoggedIn);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <GoogleOauthButton />
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <ConditionalRoute
+          path={Routes.Home}
+          exact
+          condition={isLoggedIn}
+          component={HomePage}
+          redirectUrl={Routes.Login}
+        />
+        <ConditionalRoute
+          path={Routes.Login}
+          condition={!isLoggedIn}
+          component={LoginPage}
+          redirectUrl={Routes.Home}
+        />
+      </Switch>
+    </Router>
   );
 }
 
