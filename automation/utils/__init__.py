@@ -8,7 +8,8 @@ def verify_token(token):
         idinfo = id_token.verify_oauth2_token(token, requests.Request(), Config.GOOGLE_CLIENT_ID)
         userid = idinfo['sub']
         print(userid)
+        return True
     except ValueError:
         # Invalid token
         print("Invalid Token")
-        pass
+        return False

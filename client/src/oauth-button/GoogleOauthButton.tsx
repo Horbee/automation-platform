@@ -7,7 +7,7 @@ import {
 export const GoogleOauthButton: React.FC = () => {
   const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID ?? "";
 
-  const googleLogin = async (
+  const loginToAPI = async (
     googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline
   ) => {
     const idToken = (googleResponse as GoogleLoginResponse).tokenObj.id_token;
@@ -16,7 +16,7 @@ export const GoogleOauthButton: React.FC = () => {
 
     console.log("token", idToken);
 
-    const response = await axios.post("/api/oauth/google", {
+    const response = await axios.post("http://localhost:5000/api/login", {
       email,
       name,
       idToken
@@ -26,7 +26,7 @@ export const GoogleOauthButton: React.FC = () => {
   };
 
   const { signIn } = useGoogleLogin({
-    onSuccess: googleLogin,
+    onSuccess: loginToAPI,
     onFailure: (error) => console.log(error),
     clientId,
     isSignedIn: true,

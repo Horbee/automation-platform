@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from flask_login import LoginManager
@@ -21,6 +22,8 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
     
+    CORS(app)
+
     db.init_app(app)
     with app.app_context():
         from automation.models import User
@@ -28,7 +31,7 @@ def create_app(config_class=Config):
 
     login_manager.init_app(app)
 
-    from automation.routes import auth
+    from automation.auth.routes import auth
     app.register_blueprint(auth)
 
     return app
