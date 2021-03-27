@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, g
 from automation import db
-from automation.utils import verify_token, login_required, admin_login_required
+from automation.utils import verify_token, login_required, admin_login_required, authorization_required
 from automation.models import User
 
 auth = Blueprint('auth', __name__)
@@ -30,7 +30,8 @@ def login():
             name=id_info["name"], 
             email=id_info["email"], 
             profile_pic=id_info["picture"], 
-            admin=True if is_empty else False
+            is_admin=True if is_empty else False,
+            is_authorized=True if is_empty else False
         )
         db.session.add(user)
         db.session.commit()
@@ -48,4 +49,11 @@ def test():
 @login_required
 @admin_login_required
 def test_admin():
+   return jsonify({"success": True, "user": g.user.get_objects()}) 
+
+
+@auth.route("/api/authorization", methods=['GET'])
+@login_required
+@authorization_required
+def test_authorization():
    return jsonify({"success": True, "user": g.user.get_objects()}) 

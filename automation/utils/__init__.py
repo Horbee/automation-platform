@@ -35,10 +35,22 @@ def login_required(f):
 
 
 def admin_login_required(f):
+    @wraps(f)
     def wrap(*args, **kwargs):
         # user is available from @login_required
-        if not g.user.admin:
+        if not g.user.is_admin:
             return "Not enough Permission", 403
+        return f(*args, **kwargs)
+    
+    return wrap
+
+
+def authorization_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        # user is available from @login_required
+        if not g.user.is_authorized:
+            return "Not authorized to access this endpoint", 403
         return f(*args, **kwargs)
     
     return wrap
