@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, g
 from automation import db
-from automation.utils import verify_token, login_required
+from automation.utils import verify_token, login_required, admin_login_required
 from automation.models import User
 
 auth = Blueprint('auth', __name__)
@@ -41,4 +41,11 @@ def login():
 @auth.route("/api/test", methods=['GET'])
 @login_required
 def test():
+   return jsonify({"success": True, "user": g.user.get_objects()}) 
+
+
+@auth.route("/api/admin", methods=['GET'])
+@login_required
+@admin_login_required
+def test_admin():
    return jsonify({"success": True, "user": g.user.get_objects()}) 

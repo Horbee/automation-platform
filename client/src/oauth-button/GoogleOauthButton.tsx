@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import {
-    GoogleLoginResponse, GoogleLoginResponseOffline, useGoogleLogin
+    GoogleLoginResponse, GoogleLoginResponseOffline, useGoogleLogin, useGoogleLogout
 } from "react-google-login";
 
 export const GoogleOauthButton: React.FC = () => {
@@ -33,5 +33,16 @@ export const GoogleOauthButton: React.FC = () => {
     accessType: "offline"
   });
 
-  return <button onClick={signIn}>Login</button>;
+  const { signOut } = useGoogleLogout({
+    onLogoutSuccess: () => console.log("Logout successful"),
+    onFailure: () => console.log("Logout error"),
+    clientId
+  });
+
+  return (
+    <>
+      <button onClick={signIn}>Login</button>
+      <button onClick={signOut}>Logout</button>
+    </>
+  );
 };

@@ -34,6 +34,16 @@ def login_required(f):
     return wrap
 
 
+def admin_login_required(f):
+    def wrap(*args, **kwargs):
+        # user is available from @login_required
+        if not g.user.admin:
+            return "Not enough Permission", 403
+        return f(*args, **kwargs)
+    
+    return wrap
+
+
 def verify_token(token):
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
