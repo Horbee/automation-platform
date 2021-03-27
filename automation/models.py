@@ -1,6 +1,7 @@
 from datetime import datetime
 from automation import db, login_manager
 from flask_login import UserMixin
+from flask import jsonify
 
 
 # Flask-Login helper to retrieve a user from our db
@@ -20,3 +21,15 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"User('{self.name}', '{self.email}', '{self.sub}')"
+
+    def get_objects(self):
+        data = {
+            'id': self.id,
+            'sub': self.sub,
+            'email': self.email,
+            'name': self.name,
+            'admin': self.admin,
+            'profile_pic': self.profile_pic,
+            'joined_at': self.joined_at,
+        }
+        return data
