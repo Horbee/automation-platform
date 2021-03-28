@@ -1,25 +1,26 @@
-from flask import Blueprint, jsonify, request, g
+from flask import Blueprint, jsonify, request, g, abort, Response
 from automation import db
 from automation.utils import verify_token, login_required, admin_login_required, authorization_required
 from automation.models import User
 
 auth = Blueprint('auth', __name__)
+from automation.auth.error import APIAuthError
 
 
 @auth.route("/api/login", methods=['POST'])
 def login():
     # return User data to user or register user
     if not request.json or not 'idToken' in request.json:
-        abort(Response("idToken not found"))
+        raise APIAuthError("idToken not found")
     
     id_token = request.json['idToken']
     id_info = verify_token(id_token)
 
     if id_info is None or not "sub" in id_info:
-        abort(Response("Invalid Token"))   
+        raise APIAuthError("Invalid Token")
     
     if id_info["email_verified"] is False:
-        abort(Response("User email not verified by Google"))
+        raise APIAuthError("User email not verified by Google")
 
     is_empty = len(User.query.all()) == 0
     user = User.query.filter_by(sub=id_info["sub"]).first()
