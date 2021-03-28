@@ -1,4 +1,3 @@
-import axios from "axios";
 import React from "react";
 import {
     GoogleLoginResponse, GoogleLoginResponseOffline, useGoogleLogin
@@ -6,41 +5,24 @@ import {
 
 import { Button } from "@chakra-ui/react";
 
-import { userStore } from "../stores/userStore";
-import { LoginResponse } from "../types/loginresponse";
+import { CS50AutomationAPI } from "../api/auth";
+import { AppConfig } from "../constants/config";
+import { useAuthService } from "../service/useAuthService";
 
 export const GoogleOauthButton: React.FC = () => {
-  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID ?? "";
-  const setUser = userStore((state) => state.setUser);
-
+  const { logUserIn } = useAuthService();
   const loginToAPI = async (
     googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline
   ) => {
     const idToken = (googleResponse as GoogleLoginResponse).tokenObj.id_token;
-
-    console.log("token", idToken);
-
-    const { data } = await axios.post<LoginResponse>(
-      "http://localhost:5000/api/login",
-      {
-        idToken
-      }
-    );
-
-    setUser({
-      id: data.id,
-      username: data.name,
-      email: data.email,
-      picture: data.profile_pic,
-      admin: data.admin,
-      authorized: data.authorized
-    });
+    const data = await CS50AutomationAPI.login(idToken);
+    logUserIn(data, idToken);
   };
 
   const { signIn } = useGoogleLogin({
     onSuccess: loginToAPI,
     onFailure: (error) => console.log(error),
-    clientId,
+    clientId: AppConfig.clientId,
     isSignedIn: true,
     accessType: "offline"
   });

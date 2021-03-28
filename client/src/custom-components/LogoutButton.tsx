@@ -1,16 +1,16 @@
 import React from "react";
 import { useGoogleLogout } from "react-google-login";
 
-import { userStore } from "../stores/userStore";
+import { AppConfig } from "../constants/config";
+import { useAuthService } from "../service/useAuthService";
 
 export const LogoutButton = () => {
-  const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID ?? "";
-  const reset = userStore((state) => state.reset);
+  const { logUserOut } = useAuthService();
 
   const { signOut } = useGoogleLogout({
-    onLogoutSuccess: reset,
+    onLogoutSuccess: logUserOut,
     onFailure: () => console.log("Logout error"),
-    clientId
+    clientId: AppConfig.clientId
   });
 
   return <button onClick={signOut}>Logout</button>;
