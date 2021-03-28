@@ -1,5 +1,7 @@
 import React from "react";
 
+import { Box, CircularProgress } from "@chakra-ui/react";
+
 interface LoadingWrapperProps {
   loading: boolean;
 }
@@ -9,11 +11,15 @@ export const LoadingWrapper: React.FC<LoadingWrapperProps> = ({
   children
 }) => {
   return loading ? (
-    <div className="text-center">
-      <div className="spinner-border" role="status">
-        <span className="sr-only">Loading...</span>
-      </div>
-    </div>
+    <Box
+      w="100%"
+      h="100vh"
+      d="flex"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <CircularProgress isIndeterminate size="120px" color="orange.400" />
+    </Box>
   ) : (
     <>{children}</>
   );

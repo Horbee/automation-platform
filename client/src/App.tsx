@@ -23,11 +23,14 @@ function App() {
     const idToken = localStorage.getItem(LocalStorage.IdToken);
     if (idToken) {
       const decoded = jwt_decode<TokenPayload>(idToken);
-      if (moment(decoded.exp) < moment()) {
-        CS50AutomationAPI.login(idToken).then((data) => {
-          logUserIn(data, idToken);
-          setLoading(false);
-        });
+      if (moment(decoded.exp * 1000) > moment()) {
+        CS50AutomationAPI.login(idToken)
+          .then((data) => {
+            logUserIn(data, idToken);
+          })
+          .finally(() => setLoading(false));
+      } else {
+        setLoading(false);
       }
     } else {
       setLoading(false);
