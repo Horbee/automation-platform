@@ -1,9 +1,9 @@
 import { axiosInstance } from "../service/axios/axiosInstance";
-import { LoginResponse } from "../types/loginresponse";
+import { UserModel } from "../types/user-model";
 
-export abstract class CS50AutomationAPI {
+export abstract class AuthEndpoints {
   public static async login(idToken: string) {
-    const { data } = await axiosInstance.post<LoginResponse>("/api/login", {
+    const { data } = await axiosInstance.post<UserModel>("/api/login", {
       idToken
     });
 

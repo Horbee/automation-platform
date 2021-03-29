@@ -5,7 +5,7 @@ import {
 
 import { Button } from "@chakra-ui/react";
 
-import { CS50AutomationAPI } from "../api/auth";
+import { AuthEndpoints } from "../api/auth";
 import { AppConfig } from "../constants/config";
 import { useAuthService } from "../service/useAuthService";
 
@@ -15,7 +15,7 @@ export const GoogleOauthButton: React.FC = () => {
     googleResponse: GoogleLoginResponse | GoogleLoginResponseOffline
   ) => {
     const idToken = (googleResponse as GoogleLoginResponse).tokenObj.id_token;
-    const data = await CS50AutomationAPI.login(idToken);
+    const data = await AuthEndpoints.login(idToken);
     logUserIn(data, idToken);
   };
 

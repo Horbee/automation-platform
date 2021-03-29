@@ -5,10 +5,11 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
-import { CS50AutomationAPI } from "./api/auth";
+import { AuthEndpoints } from "./api/auth";
 import { Routes } from "./constants/routes";
 import { ConditionalRoute } from "./custom-components/ConditionalRoute";
 import { LoadingWrapper } from "./custom-components/LoadingWrapper";
+import { AdminPage } from "./routes/admin/AdminPage";
 import { HomePage } from "./routes/home/HomePage";
 import { LoginPage } from "./routes/login/LoginPage";
 import { useAuthService } from "./service/useAuthService";
@@ -17,14 +18,14 @@ import { TokenPayload } from "./types/tokenpayload";
 
 function App() {
   const [loading, setLoading] = useState(true);
-  const { isLoggedIn, logUserIn } = useAuthService();
+  const { isLoggedIn, logUserIn, admin } = useAuthService();
 
   useEffect(() => {
     const idToken = localStorage.getItem(LocalStorage.IdToken);
     if (idToken) {
       const decoded = jwt_decode<TokenPayload>(idToken);
       if (moment(decoded.exp * 1000) > moment()) {
-        CS50AutomationAPI.login(idToken)
+        AuthEndpoints.login(idToken)
           .then((data) => {
             logUserIn(data, idToken);
           })
@@ -48,6 +49,13 @@ function App() {
             condition={isLoggedIn}
             component={HomePage}
             redirectUrl={Routes.Login}
+          />
+          <ConditionalRoute
+            path={Routes.Admin}
+            exact
+            condition={admin}
+            component={AdminPage}
+            redirectUrl={Routes.Home}
           />
           <ConditionalRoute
             path={Routes.Login}

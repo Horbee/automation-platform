@@ -2,19 +2,20 @@ import shallow from "zustand/shallow";
 
 import { userStore } from "../stores/userStore";
 import { LocalStorage } from "../types/localstorage";
-import { LoginResponse } from "../types/loginresponse";
+import { UserModel } from "../types/user-model";
 
 export const useAuthService = () => {
-  const { isLoggedIn, setUser, reset } = userStore(
+  const { isLoggedIn, setUser, reset, admin } = userStore(
     (state) => ({
       isLoggedIn: state.isLoggedIn,
+      admin: state.admin,
       setUser: state.setUser,
       reset: state.reset
     }),
     shallow
   );
 
-  const logUserIn = (loginResponse: LoginResponse, idToken: string) => {
+  const logUserIn = (loginResponse: UserModel, idToken: string) => {
     localStorage.setItem(LocalStorage.IdToken, idToken);
 
     setUser({
@@ -34,6 +35,7 @@ export const useAuthService = () => {
 
   return {
     isLoggedIn,
+    admin,
     logUserIn,
     logUserOut
   };
