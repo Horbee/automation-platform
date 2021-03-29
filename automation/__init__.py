@@ -32,6 +32,8 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
 
     from automation.auth.routes import auth
+    from automation.user.routes import user
     app.register_blueprint(auth)
+    app.register_blueprint(user)
 
     return app
