@@ -8,6 +8,9 @@ import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { AuthEndpoints } from "./api/auth";
 import { Routes } from "./constants/routes";
 import { ConditionalRoute } from "./custom-components/ConditionalRoute";
+import {
+    ConfirmationDialogProvider
+} from "./custom-components/confirmation-dialog/ConfirmationDialogProvider";
 import { LoadingWrapper } from "./custom-components/LoadingWrapper";
 import { AdminPage } from "./routes/admin/AdminPage";
 import { HomePage } from "./routes/home/HomePage";
@@ -40,32 +43,34 @@ function App() {
   }, []);
 
   return (
-    <LoadingWrapper loading={loading}>
-      <Router>
-        <Switch>
-          <ConditionalRoute
-            path={Routes.Home}
-            exact
-            condition={isLoggedIn}
-            component={HomePage}
-            redirectUrl={Routes.Login}
-          />
-          <ConditionalRoute
-            path={Routes.Admin}
-            exact
-            condition={admin}
-            component={AdminPage}
-            redirectUrl={Routes.Home}
-          />
-          <ConditionalRoute
-            path={Routes.Login}
-            condition={!isLoggedIn}
-            component={LoginPage}
-            redirectUrl={Routes.Home}
-          />
-        </Switch>
-      </Router>
-    </LoadingWrapper>
+    <ConfirmationDialogProvider>
+      <LoadingWrapper loading={loading}>
+        <Router>
+          <Switch>
+            <ConditionalRoute
+              path={Routes.Home}
+              exact
+              condition={isLoggedIn}
+              component={HomePage}
+              redirectUrl={Routes.Login}
+            />
+            <ConditionalRoute
+              path={Routes.Admin}
+              exact
+              condition={admin}
+              component={AdminPage}
+              redirectUrl={Routes.Home}
+            />
+            <ConditionalRoute
+              path={Routes.Login}
+              condition={!isLoggedIn}
+              component={LoginPage}
+              redirectUrl={Routes.Home}
+            />
+          </Switch>
+        </Router>
+      </LoadingWrapper>
+    </ConfirmationDialogProvider>
   );
 }
 

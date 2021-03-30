@@ -3,28 +3,32 @@ from google.auth.transport import requests
 from automation import Config
 from automation.models import User
 from functools import wraps
-from flask import request, abort, Response, g
+from flask import request, abort, Response, g, jsonify
 
+# from automation.user.error import APIUserError
 
 def login_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
         if not request.headers.get("authorization"):
-            # abort(401)
-            abort(Response("Missing Token"))
-        
+            # raise APIUserError("Missing Token")
+            return jsonify({"error": "Authentication", "message": "Missing Token"}), 401
+
         # Bearer will be cut down
         id_token = request.headers["authorization"][7:]
         id_info = verify_token(id_token)
 
         if id_info is None or not "sub" in id_info:
-            abort(Response("Invalid Token"))
+            # raise APIUserError("Invalid Token")
+            return jsonify({"error": "Authentication", "message": "Invalid Token"}), 401
+
 
         # get user via some ORM system
         user = User.query.filter_by(sub=id_info["sub"]).first()
 
         if user is None:
-            abort(Response("User not registered"))
+            # raise APIUserError("User not registered")
+            return jsonify({"error": "Authentication", "message": "User not registered"}), 401
 
         # make user available down the pipeline via flask.g
         g.user = user
