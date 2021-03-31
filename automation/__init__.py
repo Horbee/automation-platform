@@ -4,7 +4,6 @@ from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
-from oauthlib.oauth2 import WebApplicationClient
 from automation.config import Config
 from flask_marshmallow import Marshmallow
 
@@ -12,7 +11,6 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(dotenv_path=os.path.join(basedir, '../.env'))
 
 db = SQLAlchemy()
-client = WebApplicationClient(Config.GOOGLE_CLIENT_ID)
 ma = Marshmallow()
 
 def create_app(config_class=Config):
