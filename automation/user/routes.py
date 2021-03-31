@@ -7,10 +7,6 @@ from automation.error import APIError
 user = Blueprint('user', __name__)
 
 
-@user.route("/api/test")
-def error_tester():
-    raise APIError("User not found")
-
 @user.route("/api/users")
 @login_required
 @admin_login_required

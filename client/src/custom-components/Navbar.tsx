@@ -32,6 +32,10 @@ export const Navbar = () => {
 
   const history = useHistory();
 
+  const handleHomeClick = () => {
+    history.push(Routes.Home);
+  };
+
   const handleAdminClick = () => {
     history.push(Routes.Admin);
   };
@@ -59,6 +63,7 @@ export const Navbar = () => {
             variant="outline"
           />
           <MenuList>
+            <MenuItem onClick={handleHomeClick}>Home</MenuItem>
             {admin && <MenuItem onClick={handleAdminClick}>Admin</MenuItem>}
             <MenuItem onClick={signOut}>Logout</MenuItem>
           </MenuList>
