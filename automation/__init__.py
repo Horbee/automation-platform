@@ -32,7 +32,9 @@ def create_app(config_class=Config):
 
     from automation.auth.routes import auth
     from automation.user.routes import user
+    from automation.vacuum.routes import vacuum
     app.register_blueprint(auth)
     app.register_blueprint(user)
+    app.register_blueprint(vacuum)
 
     return app
