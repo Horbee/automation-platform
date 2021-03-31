@@ -27,7 +27,6 @@ export const useAdminPage = () => {
         "Are you sure you want to continue? You may loose access to the application."
       );
 
-      console.log(confirmed);
       if (!confirmed) return;
     }
 
@@ -44,7 +43,6 @@ export const useAdminPage = () => {
         "Are you sure you want to continue? You may loose access to the application."
       );
 
-      console.log(confirmed);
       if (!confirmed) return;
     } else {
       const confirmed = await getConfirmation(

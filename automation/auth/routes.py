@@ -1,7 +1,7 @@
-from flask import Blueprint, jsonify, request, g, abort, Response
+from flask import Blueprint, request
 from automation import db
-from automation.utils import verify_token, login_required, admin_login_required, authorization_required
-from automation.models import User
+from automation.utils import verify_token
+from automation.models import User, user_schema
 
 auth = Blueprint('auth', __name__)
 from automation.auth.error import APIAuthError
@@ -37,24 +37,4 @@ def login():
         db.session.add(user)
         db.session.commit()
 
-    return jsonify(user.get_objects())
-
-
-@auth.route("/api/test", methods=['GET'])
-@login_required
-def test():
-   return jsonify({"success": True, "user": g.user.get_objects()}) 
-
-
-@auth.route("/api/admin", methods=['GET'])
-@login_required
-@admin_login_required
-def test_admin():
-   return jsonify({"success": True, "user": g.user.get_objects()}) 
-
-
-@auth.route("/api/authorization", methods=['GET'])
-@login_required
-@authorization_required
-def test_authorization():
-   return jsonify({"success": True, "user": g.user.get_objects()}) 
+    return user_schema.dumps(user)

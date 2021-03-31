@@ -23,8 +23,8 @@ export const useAuthService = () => {
       username: loginResponse.name,
       email: loginResponse.email,
       picture: loginResponse.profile_pic,
-      admin: loginResponse.admin,
-      authorized: loginResponse.authorized
+      admin: loginResponse.is_admin,
+      authorized: loginResponse.is_authorized
     });
   };
 

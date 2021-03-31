@@ -4,19 +4,16 @@ from flask import Flask
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
-from flask_login import LoginManager
 from oauthlib.oauth2 import WebApplicationClient
 from automation.config import Config
+from flask_marshmallow import Marshmallow
 
-
-load_dotenv()
+basedir = os.path.abspath(os.path.dirname(__file__))
+load_dotenv(dotenv_path=os.path.join(basedir, '../.env'))
 
 db = SQLAlchemy()
-login_manager = LoginManager()
-
-
 client = WebApplicationClient(Config.GOOGLE_CLIENT_ID)
-
+ma = Marshmallow()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -24,12 +21,13 @@ def create_app(config_class=Config):
     
     CORS(app)
 
+    # Init db first, then Marshmallow
     db.init_app(app)
     with app.app_context():
         from automation.models import User
         db.create_all()
 
-    login_manager.init_app(app)
+    ma.init_app(app)
 
     from automation.auth.routes import auth
     from automation.user.routes import user

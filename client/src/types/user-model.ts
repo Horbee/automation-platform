@@ -4,7 +4,7 @@ export interface UserModel {
   name: string;
   email: string;
   profile_pic: string;
-  admin: boolean;
-  authorized: boolean;
+  is_admin: boolean;
+  is_authorized: boolean;
   joined_at: string;
 }

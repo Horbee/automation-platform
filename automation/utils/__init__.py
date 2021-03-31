@@ -3,7 +3,7 @@ from google.auth.transport import requests
 from automation import Config
 from automation.models import User
 from functools import wraps
-from flask import request, abort, Response, g, jsonify
+from flask import request, g, jsonify
 
 # from automation.user.error import APIUserError
 

@@ -23,11 +23,11 @@ export const UserRow: React.FC<UserRowProps> = ({
   }, [currentUser, user]);
 
   const onChangeAdmin = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentUser((prev) => ({ ...prev, admin: e.target.checked }));
+    setCurrentUser((prev) => ({ ...prev, is_admin: e.target.checked }));
   };
 
   const onChangeAuthorized = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentUser((prev) => ({ ...prev, authorized: e.target.checked }));
+    setCurrentUser((prev) => ({ ...prev, is_authorized: e.target.checked }));
   };
 
   return (
@@ -38,14 +38,14 @@ export const UserRow: React.FC<UserRowProps> = ({
       <Td>
         <Switch
           colorScheme="green"
-          isChecked={currentUser.authorized}
+          isChecked={currentUser.is_authorized}
           onChange={onChangeAuthorized}
         />
       </Td>
       <Td>
         <Switch
           colorScheme="green"
-          isChecked={currentUser.admin}
+          isChecked={currentUser.is_admin}
           onChange={onChangeAdmin}
         />
       </Td>

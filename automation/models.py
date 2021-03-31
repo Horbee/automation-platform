@@ -1,16 +1,8 @@
 from datetime import datetime
-from automation import db, login_manager
-from flask_login import UserMixin
-from flask import jsonify
+from automation import db, ma
 
 
-# Flask-Login helper to retrieve a user from our db
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-
-class User(db.Model, UserMixin):
+class User(db.Model):
     id = db.Column(db.Integer, primary_key=True) 
     sub = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
@@ -23,15 +15,11 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"User('{self.name}', '{self.email}', '{self.sub}')"
 
-    def get_objects(self):
-        data = {
-            'id': self.id,
-            'sub': self.sub,
-            'email': self.email,
-            'name': self.name,
-            'admin': self.is_admin,
-            'authorized': self.is_authorized,
-            'profile_pic': self.profile_pic,
-            'joined_at': self.joined_at,
-        }
-        return data
+# Marshmallow Schema
+class UserSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = User
+
+
+user_schema = UserSchema()
+users_schema = UserSchema(many=True)
