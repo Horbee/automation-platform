@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from automation.config import Config
 from flask_marshmallow import Marshmallow
 
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(dotenv_path=os.path.join(basedir, '../.env'))
 
@@ -24,6 +25,8 @@ def create_app(config_class=Config):
     with app.app_context():
         from automation.models import User
         db.create_all()
+        
+        import automation.error
 
     ma.init_app(app)
 

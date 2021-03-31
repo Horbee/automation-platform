@@ -2,9 +2,9 @@ from flask import Blueprint, request
 from automation import db
 from automation.utils import verify_token
 from automation.models import User, user_schema
+from automation.error import APIAuthError
 
 auth = Blueprint('auth', __name__)
-from automation.auth.error import APIAuthError
 
 
 @auth.route("/api/login", methods=['POST'])
