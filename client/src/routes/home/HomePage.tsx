@@ -1,12 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Center } from "@chakra-ui/react";
+import {
+    Alert, AlertDescription, AlertIcon, AlertTitle, Box, Button, Center, Flex, Grid
+} from "@chakra-ui/react";
 
+import { LoadingWrapper } from "../../custom-components/LoadingWrapper";
 import { Navbar } from "../../custom-components/Navbar";
+import { useVacuum } from "../../service/useVacuum";
 import { userStore } from "../../stores/userStore";
+import { ErrorCodeMapping, RoomList, StateCodeMapping } from "../../types/maps";
 
 export const HomePage = () => {
   const authorized = userStore((state) => state.authorized);
+  const {
+    status,
+    getStatus,
+    statusLoading,
+    startRoomCleaning,
+    stopRoomCleaning
+  } = useVacuum();
+
+  useEffect(() => {
+    getStatus();
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -31,6 +48,40 @@ export const HomePage = () => {
           </Alert>
         </Center>
       )}
+
+      <LoadingWrapper loading={statusLoading}>
+        {status && (
+          <Center>
+            <Flex color="white" alignContent="center">
+              <Box bg="tomato" p={4} color="white">
+                {status.battery}%
+              </Box>
+              <Box bg="tomato" p={4} color="white">
+                {StateCodeMapping.get(status.state)}
+              </Box>
+              <Box bg="tomato" p={4} color="white">
+                {ErrorCodeMapping.get(status.error_code)}
+              </Box>
+              <Box bg="tomato" p={4} color="white">
+                {status.fan_power}
+              </Box>
+            </Flex>
+          </Center>
+        )}
+      </LoadingWrapper>
+
+      <Center>
+        <Grid templateColumns="repeat(2, 1fr)" gap={6} mt="3">
+          {RoomList.map((room) => (
+            <Button colorScheme="teal" onClick={() => startRoomCleaning(room)}>
+              {room}
+            </Button>
+          ))}
+          <Button colorScheme="facebook" onClick={stopRoomCleaning}>
+            Stop
+          </Button>
+        </Grid>
+      </Center>
     </div>
   );
 };
