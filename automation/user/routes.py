@@ -4,10 +4,10 @@ from automation.models import User, user_schema, users_schema
 from automation import db
 from automation.error import APIError
 
-user = Blueprint('user', __name__)
+user = Blueprint('user', __name__, url_prefix='/api/users')
 
 
-@user.route("/api/users")
+@user.route("/")
 @login_required
 @admin_login_required
 def get_users():
@@ -15,7 +15,7 @@ def get_users():
     return users_schema.dumps(users)
 
 
-@user.route("/api/users/<int:user_id>", methods=['PUT'])
+@user.route("/<int:user_id>", methods=['PUT'])
 @login_required
 @admin_login_required
 def update_user(user_id):
@@ -37,7 +37,7 @@ def update_user(user_id):
     return user_schema.dumps(user)
 
 
-@user.route("/api/users/<int:user_id>", methods=['DELETE'])
+@user.route("/<int:user_id>", methods=['DELETE'])
 @login_required
 @admin_login_required
 def delete_user(user_id):

@@ -24,7 +24,8 @@ export const GoogleOauthButton: React.FC = () => {
     onFailure: (error) => console.log(error),
     clientId: AppConfig.clientId,
     isSignedIn: true,
-    accessType: "offline"
+    accessType: "offline",
+    cookiePolicy: "single_host_origin"
   });
 
   return (

@@ -3,7 +3,7 @@ from google.auth.transport import requests
 from automation import Config
 from automation.models import User
 from functools import wraps
-from flask import request, g, jsonify
+from flask import request, g, jsonify, current_app
 
 # from automation.user.error import APIUserError
 
@@ -63,9 +63,9 @@ def authorization_required(f):
 def verify_token(token):
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
-        id_info = id_token.verify_oauth2_token(token, requests.Request(), Config.GOOGLE_CLIENT_ID)
+        id_info = id_token.verify_oauth2_token(token, requests.Request(), current_app.config["GOOGLE_CLIENT_ID"])
         return id_info
     except ValueError:
         # Invalid token
-        print("Invalid Token")
+        current_app.logger.error("Invalid Token")
         return None

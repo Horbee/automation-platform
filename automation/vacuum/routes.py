@@ -3,17 +3,17 @@ from automation.utils import login_required, authorization_required
 from automation.error import APIError
 from miio import Vacuum
 
-vacuum = Blueprint('vacuum', __name__)
+vacuum = Blueprint('vacuum', __name__, url_prefix='/api/vacuum')
 
 
-@vacuum.route("/api/vacuum/status")
+@vacuum.route("/status")
 @login_required
 @authorization_required
 def get_info():
     return jsonify(get_vacuum().status().__dict__)
 
 
-@vacuum.route("/api/vacuum/roomclean", methods=["POST"])
+@vacuum.route("/roomclean", methods=["POST"])
 @login_required
 @authorization_required
 def start_segment_clean():
@@ -45,7 +45,8 @@ def start_segment_clean():
 
     return jsonify({"Response": "Ok"})
 
-@vacuum.route("/api/vacuum/roomclean/stop", methods=["POST"])
+
+@vacuum.route("/roomclean/stop", methods=["POST"])
 @login_required
 @authorization_required
 def stop_segment_clean():

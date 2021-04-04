@@ -15,12 +15,7 @@ db = SQLAlchemy()
 ma = Marshmallow()
 
 def create_app(config_class=Config):
-    if os.environ.get("ENV", "prod") == "prod":
-        # Serve React Client in Production
-        app = Flask(__name__, static_folder=os.path.join(basedir, '../client/build'), static_url_path='/')
-    else:
-        app = Flask(__name__)
-
+    app = Flask(__name__)
     app.config.from_object(config_class)
     
     CORS(app)
@@ -41,11 +36,5 @@ def create_app(config_class=Config):
     app.register_blueprint(auth)
     app.register_blueprint(user)
     app.register_blueprint(vacuum)
-
-    if os.environ.get("ENV", "prod") == "prod":
-        # Serve React Client in Production
-        from automation.client.routes import client
-        app.register_blueprint(client)
-
 
     return app
