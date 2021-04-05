@@ -59,7 +59,6 @@ export const Navbar = () => {
             as={IconButton}
             icon={<i className="fas fa-bars"></i>}
             aria-label="Options"
-            size="xs"
             variant="outline"
           />
           <MenuList>
