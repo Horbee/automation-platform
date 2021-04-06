@@ -7,7 +7,7 @@ from automation.error import APIError
 user = Blueprint('user', __name__, url_prefix='/api/users')
 
 
-@user.route("/")
+@user.route("")
 @login_required
 @admin_login_required
 def get_users():
