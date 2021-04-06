@@ -2,7 +2,7 @@ import React from "react";
 
 import { Box, Center, Flex, Text } from "@chakra-ui/react";
 
-import { ErrorCodeMapping, StateCodeMapping } from "../../types/maps";
+import { ErrorCodeMapping, FanSpeedMapping, StateCodeMapping } from "../../types/maps";
 import { StatusProps } from "../../types/status-response";
 
 interface VacuumStatusProps {
@@ -31,7 +31,7 @@ export const VacuumStatus: React.FC<VacuumStatusProps> = ({ status }) => {
         </Box>
         <Box p={4} color="white" textAlign="center">
           <i className="fas fa-fan"></i>
-          <Text>{status.fan_power}</Text>
+          <Text>{FanSpeedMapping.get(status.fan_power)}</Text>
         </Box>
       </Flex>
     </Center>

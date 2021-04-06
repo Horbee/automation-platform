@@ -1,9 +1,9 @@
-import { isEqual } from "lodash";
-import React, { useMemo, useState } from "react";
+import React from "react";
 
 import { Button, IconButton, Stack, Switch, Td, Tr } from "@chakra-ui/react";
 
-import { UserModel } from "../../types/user-model";
+import { UserModel } from "../../../types/user-model";
+import { useUserRow } from "../useUserRow";
 
 interface UserRowProps {
   user: UserModel;
@@ -16,19 +16,12 @@ export const UserRow: React.FC<UserRowProps> = ({
   removeUser,
   updateUser
 }) => {
-  const [currentUser, setCurrentUser] = useState(user);
-
-  const saveButtonDisabled = useMemo(() => {
-    return isEqual(user, currentUser);
-  }, [currentUser, user]);
-
-  const onChangeAdmin = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentUser((prev) => ({ ...prev, is_admin: e.target.checked }));
-  };
-
-  const onChangeAuthorized = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentUser((prev) => ({ ...prev, is_authorized: e.target.checked }));
-  };
+  const {
+    currentUser,
+    onChangeAdmin,
+    onChangeAuthorized,
+    saveButtonDisabled
+  } = useUserRow(user);
 
   return (
     <Tr>

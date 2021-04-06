@@ -39,7 +39,7 @@ def start_segment_clean():
 
     position = val_list.index(room)
     # print(key_list[position])
-
+    current_app.logger.debug(f"Cleaning room {room}, Id: {key_list[position]}")
     get_vacuum().segment_clean([key_list[position]])
     # print(get_vacuum().get_segment_status())
 

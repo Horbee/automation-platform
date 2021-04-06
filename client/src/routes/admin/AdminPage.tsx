@@ -1,38 +1,32 @@
-import { Table, TableCaption, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
+import React from "react";
+
+import { useBreakpointValue } from "@chakra-ui/react";
 
 import { Navbar } from "../../custom-components/Navbar";
+import { UserAccordion } from "./accordion/UserAccordion";
+import { UserTable } from "./table/UserTable";
 import { useAdminPage } from "./useAdminPage";
-import { UserRow } from "./UserRow";
 
 export const AdminPage = () => {
   const { users, updateUser, removeUser } = useAdminPage();
+  const breakpoint = useBreakpointValue(["sm", "md", "lg", "xl"]);
 
   return (
     <div>
       <Navbar />
-      <Table variant="simple">
-        <TableCaption>User informations</TableCaption>
-        <Thead>
-          <Tr>
-            <Th>Id</Th>
-            <Th>Username</Th>
-            <Th>E-Mail</Th>
-            <Th>Is Authorized</Th>
-            <Th>Is Admin</Th>
-            <Th>Actions</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {users?.map((user) => (
-            <UserRow
-              key={user.id}
-              user={user}
-              removeUser={removeUser}
-              updateUser={updateUser}
-            />
-          ))}
-        </Tbody>
-      </Table>
+      {breakpoint === "sm" || breakpoint === "md" ? (
+        <UserAccordion
+          users={users}
+          updateUser={updateUser}
+          removeUser={removeUser}
+        />
+      ) : (
+        <UserTable
+          users={users}
+          updateUser={updateUser}
+          removeUser={removeUser}
+        />
+      )}
     </div>
   );
 };

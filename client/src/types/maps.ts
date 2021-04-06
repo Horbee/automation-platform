@@ -48,6 +48,14 @@ export const ErrorCodeMapping = new Map<number, string>([
   [24, "No-go zone or invisible wall detected"]
 ]);
 
+export const FanSpeedMapping = new Map<number, string>([
+  [101, "Silent"],
+  [102, "Standard"],
+  [103, "Medium"],
+  [104, "Turbo"],
+  [105, "Gentle"]
+]);
+
 export const RoomList = [
   "Work",
   "Bedroom",
