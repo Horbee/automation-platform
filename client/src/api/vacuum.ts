@@ -17,9 +17,16 @@ export abstract class VacuumEndpoints {
     return data;
   }
 
-  public static async stopRoomCleaning() {
+  public static async pause() {
     const { data } = await axiosInstance.post<{ Response: string }>(
-      "/api/vacuum/roomclean/stop"
+      "/api/vacuum/roomclean/pause"
+    );
+    return data;
+  }
+
+  public static async home() {
+    const { data } = await axiosInstance.post<{ Response: string }>(
+      "/api/vacuum/roomclean/home"
     );
     return data;
   }

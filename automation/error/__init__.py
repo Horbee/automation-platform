@@ -1,7 +1,7 @@
 import sys
 import traceback
 from flask import current_app, jsonify, request
-
+from miio import DeviceException
 class APIError(Exception):
     """All custom API Exceptions"""
     code = 400
@@ -14,6 +14,12 @@ class APIAuthError(APIError):
     code = 403
     description = "Authentication Error"
 
+
+@current_app.errorhandler(DeviceException)
+def handle_exception(err):
+    response = {"error": "Device Exception", "message": str(err)}
+    current_app.logger.error(f"Miio Device Exception: {err}, route: {request.url}")
+    return jsonify(response), 500
 
 
 @current_app.errorhandler(APIError)

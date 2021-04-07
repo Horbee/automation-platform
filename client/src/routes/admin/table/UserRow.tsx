@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, IconButton, Stack, Switch, Td, Tr } from "@chakra-ui/react";
+import { Avatar, Button, IconButton, Stack, Switch, Td, Tr } from "@chakra-ui/react";
 
 import { UserModel } from "../../../types/user-model";
 import { useUserRow } from "../useUserRow";
@@ -26,6 +26,13 @@ export const UserRow: React.FC<UserRowProps> = ({
   return (
     <Tr>
       <Td>{currentUser.id}</Td>
+      <Td>
+        <Avatar
+          name={currentUser.name}
+          src={currentUser.profile_pic}
+          size="sm"
+        />
+      </Td>
       <Td>{currentUser.name}</Td>
       <Td>{currentUser.email}</Td>
       <Td>

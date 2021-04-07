@@ -17,52 +17,38 @@ def get_info():
 @login_required
 @authorization_required
 def start_segment_clean():
-    room_map = {
-        1: "Kitchen",
-        3: "Work",
-        6: "Bathroom",
-        7: "Bedroom",
-        17: "Corridor",
-        18: "Living Room",
-    }
-
+    # Segment list we will get from the timer
+    rooms = [{"id":19,"name":"Kitchen"},{"id":16,"name":"Living Room"},{"id":18,"name":"Work"},{"id":17,"name":"Corridor"},{"id":20,"name":"Bathroom"},{"id":21,"name":"Bedroom"}]
+   
     if not request.json or not 'room' in request.json:
         raise APIError("Argument Not found: room")
 
-    room = request.json.get('room')
+    room_name = request.json.get('room')
 
-    val_list = list(room_map.values())
-    key_list = list(room_map.keys())
+    room_id = next((room["id"] for room in rooms if room["name"] == room_name), None)
 
-    if not room in val_list:
+    if room_id is None:
         raise APIError(f"Invalid Room: {room}")
 
-    position = val_list.index(room)
-    # print(key_list[position])
-    current_app.logger.debug(f"Cleaning room {room}, Id: {key_list[position]}")
-    get_vacuum().segment_clean([key_list[position]])
-    # print(get_vacuum().get_segment_status())
+    get_vacuum().segment_clean([room_id])
 
     return jsonify({"Response": "Ok"})
 
 
-@vacuum.route("/roomclean/stop", methods=["POST"])
+@vacuum.route("/roomclean/pause", methods=["POST"])
 @login_required
 @authorization_required
-def stop_segment_clean():
-    get_vacuum().stop_segment_clean()
-    return jsonify({"Response": "Stopped"})
+def pause():
+    get_vacuum().pause()
+    return jsonify({"Response": "Paused"})
 
-# def start():
-# def pause():
-# def go_home():
-# def consumables():
-# def history():
-# def last_clean_info():
-# def clean_details():
-# def set_fan_speed():
-# def fan_speed(): fan_speed_presets
 
+@vacuum.route("/roomclean/home", methods=["POST"])
+@login_required
+@authorization_required
+def home():
+    get_vacuum().home()
+    return jsonify({"Response": "Go Home"})
 
 
 def get_vacuum():

@@ -1,8 +1,8 @@
 import React from "react";
 
 import {
-    AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Button, Center, IconButton,
-    Stack, Switch, Table, Tbody, Td, Th, Thead, Tr
+    AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Avatar, Box, Button, Center,
+    IconButton, Stack, Switch, Table, Tbody, Td, Th, Thead, Tr
 } from "@chakra-ui/react";
 
 import { UserModel } from "../../../types/user-model";
@@ -30,8 +30,14 @@ export const UserAccordionItem: React.FC<UserAccordionItemProps> = ({
     <AccordionItem>
       <h2>
         <AccordionButton>
-          <Box flex="1" textAlign="left">
-            {currentUser.id}: {currentUser.name}
+          <Box flex="1" d="flex" alignItems="center">
+            <Avatar
+              name={currentUser.name}
+              src={currentUser.profile_pic}
+              size="sm"
+              mr="3"
+            />
+            {currentUser.name}
           </Box>
           <AccordionIcon />
         </AccordionButton>

@@ -28,8 +28,19 @@ export const useVacuum = () => {
     });
   };
 
-  const stopRoomCleaning = async () => {
-    const { Response } = await VacuumEndpoints.stopRoomCleaning();
+  const pause = async () => {
+    const { Response } = await VacuumEndpoints.pause();
+    toast({
+      title: "Room Cleaning",
+      description: Response,
+      status: "success",
+      duration: 9000,
+      isClosable: true
+    });
+  };
+
+  const home = async () => {
+    const { Response } = await VacuumEndpoints.home();
     toast({
       title: "Room Cleaning",
       description: Response,
@@ -44,6 +55,7 @@ export const useVacuum = () => {
     getStatus,
     statusLoading,
     startRoomCleaning,
-    stopRoomCleaning
+    pause,
+    home
   };
 };

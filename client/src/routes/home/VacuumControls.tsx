@@ -6,7 +6,7 @@ import { useVacuum } from "../../service/useVacuum";
 import { RoomList } from "../../types/maps";
 
 export const VacuumControls = () => {
-  const { startRoomCleaning, stopRoomCleaning } = useVacuum();
+  const { startRoomCleaning, pause, home } = useVacuum();
 
   return (
     <Center>
@@ -22,8 +22,11 @@ export const VacuumControls = () => {
             </Button>
           ))}
         </Grid>
-        <Button colorScheme="facebook" onClick={stopRoomCleaning}>
-          Stop
+        <Button colorScheme="facebook" onClick={pause}>
+          Pause
+        </Button>
+        <Button colorScheme="facebook" onClick={home}>
+          Go Home
         </Button>
       </Stack>
     </Center>

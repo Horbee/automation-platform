@@ -22,6 +22,7 @@ export const UserTable: React.FC<UserTableProps> = ({
       <Thead>
         <Tr>
           <Th>Id</Th>
+          <Th>Picture</Th>
           <Th>Username</Th>
           <Th>E-Mail</Th>
           <Th>Is Authorized</Th>
