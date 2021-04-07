@@ -28,6 +28,7 @@ export const UserRow: React.FC<UserRowProps> = ({
       <Td>{currentUser.id}</Td>
       <Td>
         <Avatar
+          bg="white"
           name={currentUser.name}
           src={currentUser.profile_pic}
           size="sm"
