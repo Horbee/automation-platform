@@ -32,6 +32,7 @@ export const UserAccordionItem: React.FC<UserAccordionItemProps> = ({
         <AccordionButton>
           <Box flex="1" d="flex" alignItems="center">
             <Avatar
+              bg="white"
               name={currentUser.name}
               src={currentUser.profile_pic}
               size="sm"
