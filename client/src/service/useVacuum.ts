@@ -7,6 +7,8 @@ import { StatusProps } from "../types/status-response";
 
 export const useVacuum = () => {
   const [status, setStatus] = useState<StatusProps>();
+  const [sendingRoomRequest, setSendingRoomRequest] = useState(false);
+  const [sendingActionRequest, setSendingActionRequest] = useState(false);
   const [statusLoading, setStatusLoading] = useState(false);
   const toast = useToast();
 
@@ -18,42 +20,59 @@ export const useVacuum = () => {
   };
 
   const startRoomCleaning = async (room: string) => {
-    const { Response } = await VacuumEndpoints.startRoomCleaning(room);
-    toast({
-      title: "Room Cleaning",
-      description: Response,
-      status: "success",
-      duration: 9000,
-      isClosable: true
-    });
+    try {
+      setSendingRoomRequest(true);
+      const { Response } = await VacuumEndpoints.startRoomCleaning(room);
+      toast({
+        title: "Room Cleaning",
+        description: Response,
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
+    } finally {
+      setSendingRoomRequest(false);
+    }
   };
 
   const pause = async () => {
-    const { Response } = await VacuumEndpoints.pause();
-    toast({
-      title: "Room Cleaning",
-      description: Response,
-      status: "success",
-      duration: 9000,
-      isClosable: true
-    });
+    try {
+      setSendingActionRequest(true);
+      const { Response } = await VacuumEndpoints.pause();
+      toast({
+        title: "Room Cleaning",
+        description: Response,
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
+    } finally {
+      setSendingActionRequest(false);
+    }
   };
 
   const home = async () => {
-    const { Response } = await VacuumEndpoints.home();
-    toast({
-      title: "Room Cleaning",
-      description: Response,
-      status: "success",
-      duration: 9000,
-      isClosable: true
-    });
+    try {
+      setSendingActionRequest(true);
+      const { Response } = await VacuumEndpoints.home();
+      toast({
+        title: "Room Cleaning",
+        description: Response,
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
+    } finally {
+      setSendingActionRequest(false);
+    }
   };
 
   return {
     status,
     getStatus,
     statusLoading,
+    sendingRoomRequest,
+    sendingActionRequest,
     startRoomCleaning,
     pause,
     home
