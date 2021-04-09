@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 from automation import db
 from automation.utils import verify_token
 from automation.models import User, user_schema
@@ -14,7 +14,7 @@ def login():
         raise APIAuthError("idToken not found")
     
     id_token = request.json['idToken']
-    id_info = verify_token(id_token)
+    id_info = verify_token(id_token, current_app.config["GOOGLE_CLIENT_ID"])
 
     if id_info is None or not "sub" in id_info:
         raise APIAuthError("Invalid Token")

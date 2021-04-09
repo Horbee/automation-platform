@@ -1,10 +1,11 @@
+import pydash as _
+
 from google.oauth2 import id_token
 from google.auth.transport import requests
 from automation import Config
 from automation.models import User
 from functools import wraps
 from flask import request, g, jsonify, current_app
-
 # from automation.user.error import APIUserError
 
 def login_required(f):
@@ -16,22 +17,45 @@ def login_required(f):
 
         # Bearer will be cut down
         id_token = request.headers["authorization"][7:]
-        id_info = verify_token(id_token)
+        id_info = verify_token(id_token, current_app.config["GOOGLE_CLIENT_ID"])
 
         if id_info is None or not "sub" in id_info:
-            # raise APIUserError("Invalid Token")
             return jsonify({"error": "Authentication", "message": "Invalid Token"}), 401
-
-
-        # get user via some ORM system
+        
         user = User.query.filter_by(sub=id_info["sub"]).first()
 
         if user is None:
-            # raise APIUserError("User not registered")
             return jsonify({"error": "Authentication", "message": "User not registered"}), 401
 
         # make user available down the pipeline via flask.g
         g.user = user
+
+        # finally call f. f() now haves access to g.user
+        return f(*args, **kwargs)
+   
+    return wrap
+
+
+def google_login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        id_token = _.get(request.json, 'originalDetectIntentRequest.payload.user.idToken')
+        if id_token is None:
+            return jsonify({"error": "Authentication", "message": "Missing Token"}), 401
+
+        id_info = verify_token(id_token, current_app.config["GOOGLE_ASSISTANT_CLIENT_ID"])
+        
+        if id_info is None or not "sub" in id_info:
+            return jsonify({"error": "Authentication", "message": "Invalid Token"}), 401
+        
+        user = User.query.filter_by(sub=id_info["sub"]).first()
+
+        if user is None:
+            return jsonify({"error": "Authentication", "message": "User not registered"}), 401
+
+        # make user available down the pipeline via flask.g
+        g.user = user
+
         # finally call f. f() now haves access to g.user
         return f(*args, **kwargs)
    
@@ -60,12 +84,13 @@ def authorization_required(f):
     return wrap
 
 
-def verify_token(token):
+def verify_token(token, client_id):
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
-        id_info = id_token.verify_oauth2_token(token, requests.Request(), current_app.config["GOOGLE_CLIENT_ID"])
+        id_info = id_token.verify_oauth2_token(token, requests.Request(), client_id)
         return id_info
     except ValueError:
         # Invalid token
         current_app.logger.error("Invalid Token")
         return None
+        
