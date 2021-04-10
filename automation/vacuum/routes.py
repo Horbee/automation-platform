@@ -8,6 +8,7 @@ from miio import Vacuum
 vacuum = Blueprint('vacuum', __name__, url_prefix='/api/vacuum')
 # Segment list we will get from the timer
 rooms = [{"id":19,"name":"Kitchen"},{"id":16,"name":"Living Room"},{"id":18,"name":"Work"},{"id":17,"name":"Corridor"},{"id":20,"name":"Bathroom"},{"id":21,"name":"Bedroom"}]
+fan_speed_values = [{"value": 101, "name": "Silent"}, {"value": 102, "name": "Standard"}, {"value": 103, "name": "Medium"}, {"value": 104, "name": "Turbo"}, {"value": 105, "name": "Gentle"}]
 
 
 @vacuum.route("/status")
@@ -17,23 +18,42 @@ def get_info():
     return jsonify(get_vacuum().status().__dict__)
 
 
-@vacuum.route("/roomclean/assistant", methods=["POST"])
+@vacuum.route("/assistant", methods=["POST"])
 @google_login_required
 @authorization_required
-def start_segment_clean_assistant():
-    room_names = _.get(request.json, 'queryResult.parameters.rooms')
-    if not room_names:
-        raise APIError("Argument Not found or Empty: rooms")
+def process_assistant_intent():
+    intent = _.get(request.json, 'queryResult.intent.displayName')
 
-    room_ids = [room["id"] for room in rooms if room["name"].lower() in set(room_names)]
+    if intent == "clean":
+        room_names = _.get(request.json, 'queryResult.parameters.rooms')
+        if not room_names:
+            raise APIError("Argument Not found or Empty: rooms")
 
-    if not room_ids:
-        raise APIError(f"Invalid Rooms: {room_names}")
+        room_ids = [room["id"] for room in rooms if room["name"].lower() in set(room_names)]
 
-    current_app.logger.debug(f"Start segment cleaning from Assistant: {room_ids}")
-    get_vacuum().segment_clean(room_ids)
+        if not room_ids:
+            raise APIError(f"Invalid Rooms: {room_names}")
 
-    return jsonify({"Response": f"Ok {room_ids}"})
+        current_app.logger.debug(f"Start segment cleaning from Assistant: {room_ids}")
+        get_vacuum().segment_clean(room_ids)
+
+        return jsonify({"Response": f"Ok {room_ids}"})
+    elif intent == "fan speed":
+        fan_speed = _.get(request.json, 'queryResult.parameters.fan_speed')
+        if fan_speed is None:
+            raise APIError("Argument Not found or Empty: fan_speed")
+        
+        value = next((speed["value"] for speed in fan_speed_values if (speed["name"]).lower() == fan_speed.lower()), None)
+        if value is None:
+            raise APIError(f"Invalid speed name: {fan_speed}")
+
+        current_app.logger.debug(f"Setting fan speed from Assistant: {fan_speed}, {value}")
+        get_vacuum().set_fan_speed(value)
+        return jsonify({"Response": f"Ok {value}"})
+    else:
+        raise APIError(f"Unknown intent: {intent}")    
+
+
 
 
 @vacuum.route("/roomclean", methods=["POST"])
