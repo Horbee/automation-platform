@@ -21,18 +21,19 @@ def get_info():
 @google_login_required
 @authorization_required
 def start_segment_clean_assistant():
-    room_name = _.get(request.json, 'queryResult.parameters.room')
-    if room_name is None:
-        raise APIError("Argument Not found: room")
+    room_names = _.get(request.json, 'queryResult.parameters.rooms')
+    if not room_names:
+        raise APIError("Argument Not found or Empty: rooms")
 
-    room_id = next((room["id"] for room in rooms if (room["name"]).lower() == room_name.lower()), None)
+    room_ids = [room["id"] for room in rooms if room["name"].lower() in set(room_names)]
 
-    if room_id is None:
-        raise APIError(f"Invalid Room: {room_name}")
+    if not room_ids:
+        raise APIError(f"Invalid Rooms: {room_names}")
 
-    get_vacuum().segment_clean([room_id])
+    current_app.logger.debug(f"Start segment cleaning from Assistant: {room_ids}")
+    get_vacuum().segment_clean(room_ids)
 
-    return jsonify({"Response": f"Ok {room_id}"})
+    return jsonify({"Response": f"Ok {room_ids}"})
 
 
 @vacuum.route("/roomclean", methods=["POST"])
