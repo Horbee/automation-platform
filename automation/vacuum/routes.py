@@ -50,6 +50,20 @@ def process_assistant_intent():
         current_app.logger.debug(f"Setting fan speed from Assistant: {fan_speed}, {value}")
         get_vacuum().set_fan_speed(value)
         return jsonify({"Response": f"Ok {value}"})
+    elif intent == "status":
+        status = get_vacuum().status()
+        return jsonify({ "expectUserResponse": True, "expectedInputs": [{
+                "possibleIntents": [{ "intent": "actions.intent.TEXT" }],
+                "inputPrompt": {
+                    "richInitialPrompt": {
+                    "items": [{
+                        "simpleResponse": {
+                            "textToSpeech": f"Vacuum's battery is at {status.battery} and currently {status.state}",
+                            "displayText": f"Vacuum's battery is at {status.battery} and currently {status.state}"
+                        }}]
+                    }
+                }
+                }]})
     else:
         raise APIError(f"Unknown intent: {intent}")    
 
