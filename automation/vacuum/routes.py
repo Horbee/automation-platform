@@ -57,8 +57,6 @@ def process_assistant_intent():
         return dialogflow_response(f"Unknown intent: {intent}")    
 
 
-
-
 @vacuum.route("/roomclean", methods=["POST"])
 @login_required
 @authorization_required

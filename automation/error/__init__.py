@@ -1,6 +1,7 @@
 import sys
 import traceback
 from flask import current_app, jsonify, request
+from automation.vacuum.responses import dialogflow_response
 from miio import DeviceException
 class APIError(Exception):
     """All custom API Exceptions"""
@@ -17,8 +18,12 @@ class APIAuthError(APIError):
 
 @current_app.errorhandler(DeviceException)
 def handle_exception(err):
-    response = {"error": "Device Exception", "message": str(err)}
     current_app.logger.error(f"Miio Device Exception: {err}, route: {request.url}")
+    
+    if request.url.endswith("assistant"):
+        return dialogflow_response(f"Device Exception Occured. Please try again later.")
+
+    response = {"error": "Device Exception", "message": str(err)}
     return jsonify(response), 500
 
 

@@ -1,6 +1,6 @@
 from flask import jsonify
 
-def dialogflow_response(text_response, code=200):
+def dialogflow_response(text_response):
     return jsonify(
             {
             "payload": {
@@ -19,4 +19,4 @@ def dialogflow_response(text_response, code=200):
                 }
             }
             }
-    ), code
+    )

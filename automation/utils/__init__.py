@@ -43,21 +43,21 @@ def google_login_required(f):
     def wrap(*args, **kwargs):
         id_token = _.get(request.json, 'originalDetectIntentRequest.payload.user.idToken')
         if id_token is None:
-            return dialogflow_response("Authentication error: Token is Missing", 401)
+            return dialogflow_response("Authentication error: Token is Missing")
 
         id_info = verify_token(id_token, current_app.config["GOOGLE_ASSISTANT_CLIENT_ID"])
         
         if id_info is None or not "sub" in id_info:
             # return jsonify({"error": "Authentication", "message": "Invalid Token"}), 401
-            return dialogflow_response("Authentication error: Token is Invalid", 401)
+            return dialogflow_response("Authentication error: Token is Invalid")
         
         user = User.query.filter_by(sub=id_info["sub"]).first()
 
         if user is None:
-            return dialogflow_response("Authentication error: User is not registered", 401)
+            return dialogflow_response("Authentication error: User is not registered")
 
         if not user.is_authorized:
-            return dialogflow_response("Not authorized to access this endpoint", 403)
+            return dialogflow_response("User is not authorized to access this endpoint")
 
         # make user available down the pipeline via flask.g
         g.user = user
