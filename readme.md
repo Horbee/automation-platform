@@ -8,11 +8,13 @@
 
 This project is a Web Application made by me as the Final Project for Harvard's CS50 Course. It helps automating voice controlled room cleaning with a Roborock S5. This is a functions, which is currnetly not supported by the Xiaom Home application or Google Home. You can start a complete home cleaning with the voice assistant, but selecting individual rooms to clean by voice was not possible.
 
-The Application consists of a server side Flask API and client side React application. The Flask API uses a package, called [python-miio](https://pypi.org/project/python-miio/) to control the vacuum cleaner connected to your local network.
+The Application consists of a server side Flask API and client side React application. The Flask API uses a package, called [python-miio](https://pypi.org/project/python-miio/) to control the vacuum cleaner connected to your local network. The idea of the whole Stack and Technologies used in this project is to control your vacuum cleaner from anywhere outside of your network.
 
 The Application uses Google OAuth to manage users and authentication. The Voice control part is done with Google Assistant. After you set up the project and all the necessary dependencies, you can tell Google Assistant something like:
 
 > "Hey Google, talk to CS50Automation and clean the kitchen."
+
+![stack image](https://github.com/Horbee/cs50automation/blob/main/cs50automation_stack.PNG?raw=true)
 
 ## Necessary items / setups:
 
