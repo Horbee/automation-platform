@@ -1,0 +1,15 @@
+server {
+    listen 80;
+    root /<PATH_TO_PROJECT>/cs50automation/client/build;
+    index index.html;
+
+    location /api {
+        proxy_pass http://localhost:8000;
+        include /etc/nginx/proxy_params;
+        proxy_redirect off;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
