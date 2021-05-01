@@ -1,0 +1,12 @@
+[Unit]
+Description=Pagekite for Automation Svc
+After=network.target
+
+[Service]
+User=horbee
+WorkingDirectory=/<PATH_TO_PAGEKITE>
+ExecStart=/<PATH_TO_PAGEKITE>/pagekite.py 80 <YOUR_SUBDOMAIN>.pagekite.me +insecure
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
