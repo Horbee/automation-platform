@@ -46,7 +46,25 @@ TOKEN:    <YOUR TOKEN>
 MODEL:    roborock.vacuum.s5
 ```
 
-# Step 2: Setup Google OAuth
+# Step 2: Get your Room Ids
+
+The API needs to send the correct room Ids in a list to your Roborock. Unfortunately creating this list is a bit cumbersome. The only way that worked for me is the way, how Homebridge is aquiring these ids. Read more about this in the References section below.
+
+Setup a timer in the Xiaomi Home app for 00:00 and disable it. You will need to select all your rooms, and mark the order of selection.
+
+After that execute the following script:
+
+`python3 get_room_ids.py <ip> <token>`
+
+It will output the timer you've just created. Note the 'segments' comma separated list. These are the ids of the rooms in the order, in which you selected them.
+
+`<Timer action=['start_clean', {'fan_power': 102, 'segments': '19,16,18,17,20,21', 'repeat': 1, 'clean_order_mode': 0}] cron=0 0 8 4 * enabled=False id=1617799992517 next_schedule=2024-04-08 00:00:00+02:00 ts=2021-04-07 14:53:12.517000>`
+
+You will need to overwrite my Room List in file: `cs50automation/automation/vacuum/routes.py` on line 11. Replace your Room Ids with your Room Names.
+
+`rooms = [{"id":19,"name":"Kitchen"},{"id":16,"name":"Living Room"},{"id":18,"name":"Work"},{"id":17,"name":"Corridor"},{"id":20,"name":"Bathroom"},{"id":21,"name":"Bedroom"}]`
+
+# Step 3: Setup Google OAuth
 
 Navigate to: https://console.cloud.google.com/ and create a new Project. Enter a name, you want your porject to be called.
 
@@ -69,7 +87,7 @@ https://<>.pagekite.me (we will create this in a next step)
 
 Mark ClientId and Client Secret
 
-# Step 3: Clone and Setup the project
+# Step 4: Clone and Setup the project
 
 ```
 git clone https://github.com/Horbee/cs50automation.git
@@ -131,9 +149,9 @@ GOOGLE_ASSISTANT_CLIENT_ID=
 ENV=prod
 ```
 
-## Figure out your Room Ids:
+## Insert your Room Ids:
 
-the API endpoint needs to send the correct room Id in a list to your Roborock. Unfortunately creating this list is a bit cumbersome. The only way that worked for me is the way, how Homebridge is aquiring these ids: Setting up a Timer in Xiaomi Home and then ask for the timer list.
+TODO:
 
 ## NginX setup
 
@@ -155,7 +173,7 @@ sudo systemctl start cs50automation.service
 
 Now the Cs50Automation app should be accessible on your network, however you wont be able to log in, since Google OAuth needs a publicly accessible URL to work.
 
-# Step 4: Setup Pagekite
+# Step 5: Setup Pagekite
 
 - Create account at [Pagekite](https://pagekite.net/) and configure your kite
 - You will end up with a domain like: xxxxxxxx.pagekite.me
@@ -166,7 +184,7 @@ sudo systemctl enable pagekite.service
 sudo systemctl start pagekite.service
 ```
 
-# Step 5: Setup Action on Google Assistant
+# Step 6: Setup Action on Google Assistant
 
 TODO
 
