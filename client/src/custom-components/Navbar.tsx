@@ -1,4 +1,3 @@
-import React from "react";
 import { useGoogleLogout } from "react-google-login";
 import { useHistory } from "react-router-dom";
 import shallow from "zustand/shallow";

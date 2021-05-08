@@ -1,5 +1,3 @@
-import React from "react";
-
 import {
     AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Avatar, Box, Button, Center,
     IconButton, Stack, Switch, Table, Tbody, Td, Th, Thead, Tr

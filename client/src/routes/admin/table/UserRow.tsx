@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Avatar, Button, IconButton, Stack, Switch, Td, Tr } from "@chakra-ui/react";
 
 import { UserModel } from "../../../types/user-model";

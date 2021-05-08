@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Box, CircularProgress } from "@chakra-ui/react";
 
 interface LoadingWrapperProps {

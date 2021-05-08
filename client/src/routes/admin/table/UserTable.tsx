@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Table, TableCaption, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 
 import { UserModel } from "../../../types/user-model";

@@ -2,7 +2,7 @@ import "./App.css";
 
 import jwt_decode from "jwt-decode";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
 import { AuthEndpoints } from "./api/auth";

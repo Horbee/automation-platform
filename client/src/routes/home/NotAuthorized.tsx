@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Center } from "@chakra-ui/react";
 
 export const NotAuthorized = () => {

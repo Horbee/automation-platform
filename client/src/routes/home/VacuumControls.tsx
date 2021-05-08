@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Button, Center, Grid, Progress, Stack } from "@chakra-ui/react";
 
 import { useVacuum } from "../../service/useVacuum";

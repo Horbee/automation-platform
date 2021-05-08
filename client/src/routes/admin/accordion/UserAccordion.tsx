@@ -1,5 +1,3 @@
-import React from "react";
-
 import { Accordion } from "@chakra-ui/react";
 
 import { UserModel } from "../../../types/user-model";

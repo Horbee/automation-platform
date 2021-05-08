@@ -1,5 +1,3 @@
-import React from "react";
-
 import { useBreakpointValue } from "@chakra-ui/react";
 
 import { Navbar } from "../../custom-components/Navbar";

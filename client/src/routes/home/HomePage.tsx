@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 
 import { LoadingWrapper } from "../../custom-components/LoadingWrapper";
 import { Navbar } from "../../custom-components/Navbar";
