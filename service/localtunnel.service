@@ -1,0 +1,12 @@
+[Unit]
+Description=Localtunnel for Automation Svc
+After=network.target
+
+[Service]
+User=horbee
+WorkingDirectory=/home/pi
+ExecStart=lt --port 80 --subdomain <YOUR_SUBDOMAIN_TO_USE> --local-host localhost
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
