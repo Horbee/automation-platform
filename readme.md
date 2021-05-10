@@ -14,7 +14,7 @@ The Application uses Google OAuth to manage users and authentication. The Voice 
 
 > "Hey Google, talk to CS50Automation and clean the kitchen."
 
-![stack image](https://github.com/Horbee/cs50automation/blob/main/cs50automation_stack.PNG?raw=true)
+![stack image](https://raw.githubusercontent.com/Horbee/cs50automation/main/cs50automation_stack.PNG)
 
 ## Necessary items / setups:
 
