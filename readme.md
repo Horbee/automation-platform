@@ -77,8 +77,10 @@ Click on OAuth Consent Screen and configure it. Fill out only the necessary info
 
 After that click on Credentials > Create Credentials > OAuth Client ID
 
-Application Type: Web Application
-Name: Cs50Automation
+Application Type: `Web Application`
+
+Name: `Cs50Automation`
+
 Authorized Javascript Domains:
 
 ```
@@ -87,7 +89,7 @@ http://localhost:3000
 https://<SUBDOMAIN>.pagekite.me or https://<SUBDOMAIN>.loca.lt // (Step 5)
 ```
 
-Mark ClientId and Client Secret
+Note your ClientId and Client Secret, you will need them in an upcoming step.
 
 # Step 4: Clone and Setup the project
 
@@ -153,7 +155,7 @@ ENV=prod
 
 ## Insert your Room Ids:
 
-TODO:
+You will need to overwrite my Room List in file: `cs50automation/automation/vacuum/routes.py` on line 11. Replace your Room Ids with your Room Names. (This was previously generated in Step 2)
 
 ## NginX setup
 
