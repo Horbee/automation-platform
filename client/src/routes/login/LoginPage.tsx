@@ -11,10 +11,8 @@ export const LoginPage = () => {
             CS50Automation
           </Text>
           <Box padding="4" bg="gray.100" maxW="3xl">
-            <>
-              In order to access the application, please sign in using your
-              Google credentials.
-            </>
+            In order to access the application, please sign in using your Google
+            credentials.
           </Box>
           <GoogleOauthButton />
         </Stack>

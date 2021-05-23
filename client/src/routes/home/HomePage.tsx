@@ -10,7 +10,7 @@ import { VacuumStatus } from "./VacuumStatus";
 
 export const HomePage = () => {
   const authorized = userStore((state) => state.authorized);
-  const { status, getStatus, statusLoading } = useVacuum();
+  const { status, getStatus, statusLoading, setFanSpeed } = useVacuum();
 
   useEffect(() => {
     if (authorized) {
@@ -24,7 +24,7 @@ export const HomePage = () => {
       <Navbar />
       {authorized ? (
         <LoadingWrapper loading={statusLoading}>
-          {status && <VacuumStatus status={status} />}
+          {status && <VacuumStatus status={status} setFanSpeed={setFanSpeed} />}
           <VacuumControls />
         </LoadingWrapper>
       ) : (

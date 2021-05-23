@@ -1,5 +1,3 @@
-import "./App.css";
-
 import jwt_decode from "jwt-decode";
 import moment from "moment";
 import { useEffect, useState } from "react";

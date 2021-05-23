@@ -1,3 +1,5 @@
+import { FanSpeedValues } from "./vacuum";
+
 export const StateCodeMapping = new Map<number, string>([
   [1, "Starting"],
   [2, "Charger disconnected"],
@@ -48,7 +50,7 @@ export const ErrorCodeMapping = new Map<number, string>([
   [24, "No-go zone or invisible wall detected"]
 ]);
 
-export const FanSpeedMapping = new Map<number, string>([
+export const FanSpeedMapping = new Map<FanSpeedValues, string>([
   [101, "Silent"],
   [102, "Standard"],
   [103, "Medium"],

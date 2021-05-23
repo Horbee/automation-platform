@@ -92,6 +92,19 @@ def home():
     return jsonify({"Response": "Go Home"})
 
 
+@vacuum.route("/fanspeed", methods=["POST"])
+@login_required
+@authorization_required
+def set_fan_speed():
+    if not request.json or not 'speed' in request.json:
+        raise APIError("Argument Not found: speed")
+
+    speed = request.json.get('speed')
+
+    get_vacuum().set_fan_speed(speed)
+    return jsonify({"Response": f"Ok {speed}"})
+
+
 def get_vacuum():
     if 'vacuum' not in g:
         g.vacuum = Vacuum(current_app.config["VACUUM_IP"], current_app.config["VACUUM_TOKEN"])

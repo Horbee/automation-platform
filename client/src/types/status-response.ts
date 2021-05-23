@@ -1,3 +1,5 @@
+import { FanSpeedValues } from "./vacuum";
+
 export interface StatusResponse {
   data: StatusProps;
 }
@@ -8,7 +10,7 @@ export interface StatusProps {
   clean_time: number;
   dnd_enabled: number;
   error_code: number;
-  fan_power: number;
+  fan_power: FanSpeedValues;
   in_cleaning: number;
   in_fresh_state: number;
   in_returning: number;

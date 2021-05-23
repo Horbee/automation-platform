@@ -4,6 +4,7 @@ import { useToast } from "@chakra-ui/react";
 
 import { VacuumEndpoints } from "../api/vacuum";
 import { StatusProps } from "../types/status-response";
+import { FanSpeedValues } from "../types/vacuum";
 
 export const useVacuum = () => {
   const [status, setStatus] = useState<StatusProps>();
@@ -67,6 +68,22 @@ export const useVacuum = () => {
     }
   };
 
+  const setFanSpeed = async (speed: FanSpeedValues) => {
+    try {
+      setSendingActionRequest(true);
+      const { Response } = await VacuumEndpoints.setFanSpeed(speed);
+      toast({
+        title: "Set Fan Speed",
+        description: Response,
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
+    } finally {
+      setSendingActionRequest(false);
+    }
+  };
+
   return {
     status,
     getStatus,
@@ -75,6 +92,7 @@ export const useVacuum = () => {
     sendingActionRequest,
     startRoomCleaning,
     pause,
-    home
+    home,
+    setFanSpeed
   };
 };
