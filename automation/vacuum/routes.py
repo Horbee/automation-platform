@@ -8,7 +8,7 @@ from miio import Vacuum
 
 vacuum = Blueprint('vacuum', __name__, url_prefix='/api/vacuum')
 # Segment list we will get from the timer
-rooms = [{"id":19,"name":"Kitchen"},{"id":16,"name":"Living Room"},{"id":18,"name":"Work"},{"id":17,"name":"Corridor"},{"id":20,"name":"Bathroom"},{"id":21,"name":"Bedroom"}]
+rooms = [{"id":18,"name":"Kitchen"},{"id":16,"name":"Living Room"},{"id":19,"name":"Work"},{"id":17,"name":"Corridor"},{"id":21,"name":"Bathroom"},{"id":20,"name":"Bedroom"}]
 fan_speed_values = [{"value": 101, "name": "Silent"}, {"value": 102, "name": "Standard"}, {"value": 103, "name": "Medium"}, {"value": 104, "name": "Turbo"}, {"value": 105, "name": "Gentle"}]
 
 
