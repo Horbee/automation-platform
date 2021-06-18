@@ -101,8 +101,11 @@ def set_fan_speed():
 
     speed = request.json.get('speed')
 
+    presets = get_vacuum().fan_speed_presets()
+    value = list(presets.keys())[list(presets.values()).index(speed)]
+
     get_vacuum().set_fan_speed(speed)
-    return jsonify({"Response": f"Ok {speed}"})
+    return jsonify({"Response": f"New speed set: {value}"})
 
 
 def get_vacuum():

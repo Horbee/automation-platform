@@ -20,10 +20,12 @@ export const VacuumStatus: React.FC<VacuumStatusProps> = ({
           <i className="fas fa-charging-station"></i>
           <Text>{status.battery}%</Text>
         </Box>
+
         <Box p={4} color="white" textAlign="center">
           <i className="fas fa-microchip"></i>
           <Text>{StateCodeMapping.get(status.state)}</Text>
         </Box>
+
         <Box p={4} color="white" textAlign="center">
           {status.error_code === 0 ? (
             <i className="fas fa-check-circle"></i>

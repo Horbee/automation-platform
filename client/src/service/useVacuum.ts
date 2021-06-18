@@ -79,6 +79,7 @@ export const useVacuum = () => {
         duration: 9000,
         isClosable: true
       });
+      setStatus((prev) => ({ ...prev!, fan_power: speed }));
     } finally {
       setSendingActionRequest(false);
     }
