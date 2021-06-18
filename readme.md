@@ -148,9 +148,7 @@ Note: GOOGLE_ASSISTANT_CLIENT_ID is not yet setup. You will need to come back an
 VACUUM_IP=xxxxxxxxxxxxxxxxxxxxxxxx
 VACUUM_TOKEN=xxxxxxxxxxxxxxxxxxxxxxxx
 GOOGLE_CLIENT_ID=xxxxxxxxxxxxxxxxxxxxxxxx
-GOOGLE_CLIENT_SECRET=xxxxxxxxxxxxxxxxxxxxxxxx
 GOOGLE_ASSISTANT_CLIENT_ID=
-ENV=prod
 ```
 
 ## Insert your Room Ids:
