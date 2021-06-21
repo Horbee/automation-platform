@@ -1,16 +1,38 @@
-import { useState } from "react";
+import shallow from "zustand/shallow";
 
 import { useToast } from "@chakra-ui/react";
 
 import { VacuumEndpoints } from "../api/vacuum";
-import { StatusProps } from "../types/status-response";
+import { vacuumStore } from "../stores/vacuumStore";
 import { FanSpeedValues } from "../types/vacuum";
 
 export const useVacuum = () => {
-  const [status, setStatus] = useState<StatusProps>();
-  const [sendingRoomRequest, setSendingRoomRequest] = useState(false);
-  const [sendingActionRequest, setSendingActionRequest] = useState(false);
-  const [statusLoading, setStatusLoading] = useState(false);
+  const [status, setStatus] = vacuumStore(
+    ({ status, setStatus }) => [status, setStatus],
+    shallow
+  );
+
+  const [statusLoading, setStatusLoading] = vacuumStore(
+    ({ statusLoading, setStatusLoading }) => [statusLoading, setStatusLoading],
+    shallow
+  );
+
+  const [sendingRoomRequest, setSendingRoomRequest] = vacuumStore(
+    ({ sendingRoomRequest, setSendingRoomRequest }) => [
+      sendingRoomRequest,
+      setSendingRoomRequest
+    ],
+    shallow
+  );
+
+  const [sendingActionRequest, setSendingActionRequest] = vacuumStore(
+    ({ sendingActionRequest, setSendingActionRequest }) => [
+      sendingActionRequest,
+      setSendingActionRequest
+    ],
+    shallow
+  );
+
   const toast = useToast();
 
   const getStatus = async () => {
@@ -79,7 +101,7 @@ export const useVacuum = () => {
         duration: 9000,
         isClosable: true
       });
-      setStatus((prev) => ({ ...prev!, fan_power: speed }));
+      setStatus({ ...status!, fan_power: speed });
     } finally {
       setSendingActionRequest(false);
     }
