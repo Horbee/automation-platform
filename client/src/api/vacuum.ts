@@ -25,6 +25,13 @@ export abstract class VacuumEndpoints {
     return data;
   }
 
+  public static async find() {
+    const { data } = await axiosInstance.get<{ Response: string }>(
+      "/api/vacuum/find"
+    );
+    return data;
+  }
+
   public static async home() {
     const { data } = await axiosInstance.post<{ Response: string }>(
       "/api/vacuum/roomclean/home"

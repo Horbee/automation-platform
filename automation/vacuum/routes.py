@@ -92,6 +92,14 @@ def home():
     return jsonify({"Response": "Go Home"})
 
 
+@vacuum.route("/find", methods=["GET"])
+@login_required
+@authorization_required
+def find():
+    get_vacuum().find()
+    return jsonify({"Response": "Find Successful"})
+
+
 @vacuum.route("/fanspeed", methods=["POST"])
 @login_required
 @authorization_required

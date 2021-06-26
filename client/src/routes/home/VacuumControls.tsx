@@ -1,7 +1,13 @@
-import { Button, Center, Grid, HStack, IconButton, Progress, Stack } from "@chakra-ui/react";
+import { motion } from "framer-motion";
+
+import {
+    Button, ButtonGroup, Center, Grid, IconButton, IconButtonProps, Progress, Stack
+} from "@chakra-ui/react";
 
 import { useVacuum } from "../../service/useVacuum";
 import { RoomList } from "../../types/maps";
+
+export const MotionIconButton = motion<IconButtonProps>(IconButton);
 
 export const VacuumControls = () => {
   const {
@@ -9,7 +15,8 @@ export const VacuumControls = () => {
     sendingRoomRequest,
     sendingActionRequest,
     pause,
-    home
+    home,
+    find
   } = useVacuum();
 
   return (
@@ -39,32 +46,44 @@ export const VacuumControls = () => {
             ))}
           </Grid>
 
-          <HStack spacing="24px" justifyContent="space-between">
-            <IconButton
-              boxSize="75px"
+          <ButtonGroup
+            size="lg"
+            isAttached
+            variant="solid"
+            justifyContent="center"
+            bgGradient="linear(to-r,gray.50,blue.900,gray.50)"
+          >
+            <MotionIconButton
+              boxSize="55px"
               colorScheme="facebook"
               aria-label="Go Home"
               onClick={home}
               disabled={sendingActionRequest}
               icon={<i className="fas fa-house-damage"></i>}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             />
-            <IconButton
-              boxSize="75px"
-              colorScheme="orange"
+            <MotionIconButton
+              boxSize="55px"
+              colorScheme="red"
               aria-label="Find me"
-              onClick={() => {}}
+              onClick={find}
               disabled={sendingActionRequest}
               icon={<i className="fas fa-search-location"></i>}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             />
-            <IconButton
-              boxSize="75px"
+            <MotionIconButton
+              boxSize="55px"
               colorScheme="facebook"
               aria-label="Pause"
               onClick={pause}
               disabled={sendingActionRequest}
               icon={<i className="fas fa-pause"></i>}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             />
-          </HStack>
+          </ButtonGroup>
         </Stack>
       </Center>
     </>

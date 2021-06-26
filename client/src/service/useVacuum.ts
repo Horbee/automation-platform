@@ -90,6 +90,22 @@ export const useVacuum = () => {
     }
   };
 
+  const find = async () => {
+    try {
+      setSendingActionRequest(true);
+      const { Response } = await VacuumEndpoints.find();
+      toast({
+        title: "Find Vacuum",
+        description: Response,
+        status: "success",
+        duration: 9000,
+        isClosable: true
+      });
+    } finally {
+      setSendingActionRequest(false);
+    }
+  };
+
   const setFanSpeed = async (speed: FanSpeedValues) => {
     try {
       setSendingActionRequest(true);
@@ -116,6 +132,7 @@ export const useVacuum = () => {
     startRoomCleaning,
     pause,
     home,
+    find,
     setFanSpeed
   };
 };
