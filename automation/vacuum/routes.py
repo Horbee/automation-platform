@@ -1,10 +1,11 @@
 import pydash as _
 
-from flask import Blueprint, jsonify, current_app, g, request
+from flask import Blueprint, jsonify, current_app, request
 from automation.utils import login_required, google_login_required, authorization_required
 from automation.error import APIError
 from automation.vacuum.responses import dialogflow_response
-from miio import Vacuum
+from automation import vacuum_instance
+
 
 vacuum = Blueprint('vacuum', __name__, url_prefix='/api/vacuum')
 # Segment list we will get from the timer
@@ -116,8 +117,6 @@ def set_fan_speed():
     return jsonify({"Response": f"New speed set: {value}"})
 
 
-def get_vacuum():
-    if 'vacuum' not in g:
-        g.vacuum = Vacuum(current_app.config["VACUUM_IP"], current_app.config["VACUUM_TOKEN"])
 
-    return g.vacuum
+def get_vacuum():
+    return vacuum_instance
