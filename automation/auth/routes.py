@@ -21,11 +21,15 @@ def login():
     
     if id_info["email_verified"] is False:
         raise APIAuthError("User email not verified by Google")
-
+    
     is_empty = len(User.query.all()) == 0
     user = User.query.filter_by(sub=id_info["sub"]).first()
 
     if not user:
+        email_taken = User.query.filter_by(email=id_info["email"]).first()
+        if email_taken:
+            raise APIAuthError("User with email is already registered")
+
         user = User(
             sub=id_info["sub"], 
             name=id_info["name"], 

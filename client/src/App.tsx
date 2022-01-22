@@ -1,9 +1,11 @@
-import jwt_decode from "jwt-decode";
-import moment from "moment";
+import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
+import { useToast } from "@chakra-ui/react";
+
 import { AuthEndpoints } from "./api/auth";
+import { auth } from "./constants/config";
 import { Routes } from "./constants/routes";
 import { ConditionalRoute } from "./custom-components/ConditionalRoute";
 import {
@@ -13,30 +15,36 @@ import { LoadingWrapper } from "./custom-components/LoadingWrapper";
 import { AdminPage } from "./routes/admin/AdminPage";
 import { HomePage } from "./routes/home/HomePage";
 import { LoginPage } from "./routes/login/LoginPage";
+import { axiosInstance } from "./service/axios/axiosInstance";
 import { useAuthService } from "./service/useAuthService";
-import { LocalStorage } from "./types/localstorage";
-import { TokenPayload } from "./types/tokenpayload";
 
 function App() {
+  const toast = useToast();
   const [loading, setLoading] = useState(true);
   const { isLoggedIn, logUserIn, admin } = useAuthService();
 
   useEffect(() => {
-    const idToken = localStorage.getItem(LocalStorage.IdToken);
-    if (idToken) {
-      const decoded = jwt_decode<TokenPayload>(idToken);
-      if (moment(decoded.exp * 1000) > moment()) {
-        AuthEndpoints.login(idToken)
-          .then((data) => {
-            logUserIn(data, idToken);
-          })
-          .finally(() => setLoading(false));
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const idToken = await user.getIdToken();
+          axiosInstance.defaults.headers.common[
+            "Authorization"
+          ] = `Bearer ${idToken}`;
+          const data = await AuthEndpoints.login(idToken);
+          logUserIn(data);
+        } catch (err) {
+          console.log(err);
+          toast({
+            title: "Auth Error",
+            description: "Unable to authenticate",
+          });
+        }
       } else {
-        setLoading(false);
+        delete axiosInstance.defaults.headers.common["Authorization"];
       }
-    } else {
       setLoading(false);
-    }
+    });
     // eslint-disable-next-line
   }, []);
 

@@ -2,7 +2,6 @@ import pydash as _
 
 from google.oauth2 import id_token
 from google.auth.transport import requests
-from automation import Config
 from automation.models import User
 from automation.vacuum.responses import dialogflow_response
 from functools import wraps
@@ -93,7 +92,7 @@ def authorization_required(f):
 def verify_token(token, client_id):
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
-        id_info = id_token.verify_oauth2_token(token, requests.Request(), client_id)
+        id_info = id_token.verify_firebase_token(token, requests.Request(), client_id)
         return id_info
     except ValueError:
         # Invalid token

@@ -1,4 +1,3 @@
-import { useGoogleLogout } from "react-google-login";
 import { useHistory } from "react-router-dom";
 import shallow from "zustand/shallow";
 
@@ -6,12 +5,12 @@ import {
     Avatar, Badge, Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text
 } from "@chakra-ui/react";
 
-import { AppConfig } from "../constants/config";
 import { Routes } from "../constants/routes";
 import { useAuthService } from "../service/useAuthService";
 import { userStore } from "../stores/userStore";
 
 export const Navbar = () => {
+  const history = useHistory();
   const { username, picture, admin } = userStore(
     (state) => ({
       username: state.username,
@@ -22,14 +21,6 @@ export const Navbar = () => {
   );
 
   const { logUserOut } = useAuthService();
-
-  const { signOut } = useGoogleLogout({
-    onLogoutSuccess: logUserOut,
-    onFailure: () => console.log("Logout error"),
-    clientId: AppConfig.clientId
-  });
-
-  const history = useHistory();
 
   const handleHomeClick = () => {
     history.push(Routes.Home);
@@ -63,7 +54,7 @@ export const Navbar = () => {
           <MenuList>
             <MenuItem onClick={handleHomeClick}>Home</MenuItem>
             {admin && <MenuItem onClick={handleAdminClick}>Admin</MenuItem>}
-            <MenuItem onClick={signOut}>Logout</MenuItem>
+            <MenuItem onClick={logUserOut}>Logout</MenuItem>
           </MenuList>
         </Menu>
       </Box>
