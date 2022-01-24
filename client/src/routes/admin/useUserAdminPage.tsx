@@ -7,7 +7,7 @@ import {
 import { userStore } from "../../stores/userStore";
 import { UserModel } from "../../types/user-model";
 
-export const useAdminPage = () => {
+export const useUserAdminPage = () => {
   const [users, setUsers] = useState<UserModel[]>([]);
   const { getConfirmation } = useConfirmationModal();
   const loggedInUserId = userStore((state) => state.id);
@@ -61,6 +61,6 @@ export const useAdminPage = () => {
   return {
     users,
     updateUser,
-    removeUser
+    removeUser,
   };
 };

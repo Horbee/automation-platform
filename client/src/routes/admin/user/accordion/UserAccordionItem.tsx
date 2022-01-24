@@ -3,8 +3,8 @@ import {
     IconButton, Stack, Switch, Table, Tbody, Td, Th, Thead, Tr
 } from "@chakra-ui/react";
 
-import { UserModel } from "../../../types/user-model";
-import { useUserRow } from "../useUserRow";
+import { UserModel } from "../../../../types/user-model";
+import { useUserRow } from "../../useUserRow";
 
 interface UserAccordionItemProps {
   user: UserModel;
@@ -15,14 +15,10 @@ interface UserAccordionItemProps {
 export const UserAccordionItem: React.FC<UserAccordionItemProps> = ({
   user,
   removeUser,
-  updateUser
+  updateUser,
 }) => {
-  const {
-    currentUser,
-    onChangeAdmin,
-    onChangeAuthorized,
-    saveButtonDisabled
-  } = useUserRow(user);
+  const { currentUser, onChangeAdmin, onChangeAuthorized, saveButtonDisabled } =
+    useUserRow(user);
 
   return (
     <AccordionItem>

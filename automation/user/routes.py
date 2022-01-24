@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, abort
+from flask import Blueprint, jsonify, request
 from automation.utils import login_required, admin_login_required
 from automation.models import User, user_schema, users_schema
 from automation import db

@@ -26,7 +26,7 @@ def create_app(config_class=Config):
     # Init db first, then Marshmallow
     db.init_app(app)
     with app.app_context():
-        from automation.models import User
+        from automation.models import User, Room
         db.create_all()
         
         import automation.error
@@ -40,9 +40,11 @@ def create_app(config_class=Config):
 
     from automation.auth.routes import auth
     from automation.user.routes import user
+    from automation.room.routes import room
     from automation.vacuum.routes import vacuum
     app.register_blueprint(auth)
     app.register_blueprint(user)
+    app.register_blueprint(room)
     app.register_blueprint(vacuum)
 
     return app

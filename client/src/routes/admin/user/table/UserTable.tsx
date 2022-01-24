@@ -1,6 +1,6 @@
 import { Table, TableCaption, Tbody, Th, Thead, Tr } from "@chakra-ui/react";
 
-import { UserModel } from "../../../types/user-model";
+import { UserModel } from "../../../../types/user-model";
 import { UserRow } from "./UserRow";
 
 interface UserTableProps {
@@ -12,7 +12,7 @@ interface UserTableProps {
 export const UserTable: React.FC<UserTableProps> = ({
   users,
   updateUser,
-  removeUser
+  removeUser,
 }) => {
   return (
     <Table variant="simple">

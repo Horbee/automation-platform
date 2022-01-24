@@ -1,6 +1,6 @@
 import { Accordion } from "@chakra-ui/react";
 
-import { UserModel } from "../../../types/user-model";
+import { UserModel } from "../../../../types/user-model";
 import { UserAccordionItem } from "./UserAccordionItem";
 
 interface UserAccordionProps {
@@ -12,7 +12,7 @@ interface UserAccordionProps {
 export const UserAccordion: React.FC<UserAccordionProps> = ({
   users,
   removeUser,
-  updateUser
+  updateUser,
 }) => {
   return (
     <Accordion>

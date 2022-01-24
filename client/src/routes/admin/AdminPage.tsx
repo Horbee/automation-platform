@@ -1,30 +1,27 @@
-import { useBreakpointValue } from "@chakra-ui/react";
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 
 import { Navbar } from "../../custom-components/Navbar";
-import { UserAccordion } from "./accordion/UserAccordion";
-import { UserTable } from "./table/UserTable";
-import { useAdminPage } from "./useAdminPage";
+import { RoomAdminComponent } from "./room/RoomAdminComponent";
+import { UserAdminComponent } from "./user/UserAdminComponent";
 
 export const AdminPage = () => {
-  const { users, updateUser, removeUser } = useAdminPage();
-  const breakpoint = useBreakpointValue(["sm", "md", "lg", "xl"]);
-
   return (
     <div>
       <Navbar />
-      {breakpoint === "sm" || breakpoint === "md" ? (
-        <UserAccordion
-          users={users}
-          updateUser={updateUser}
-          removeUser={removeUser}
-        />
-      ) : (
-        <UserTable
-          users={users}
-          updateUser={updateUser}
-          removeUser={removeUser}
-        />
-      )}
+      <Tabs isLazy variant="soft-rounded" colorScheme="green">
+        <TabList>
+          <Tab>Users</Tab>
+          <Tab>Rooms</Tab>
+        </TabList>
+        <TabPanels>
+          <TabPanel>
+            <UserAdminComponent />
+          </TabPanel>
+          <TabPanel>
+            <RoomAdminComponent />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </div>
   );
 };

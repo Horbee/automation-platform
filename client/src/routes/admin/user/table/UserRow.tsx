@@ -1,7 +1,7 @@
 import { Avatar, Button, IconButton, Stack, Switch, Td, Tr } from "@chakra-ui/react";
 
-import { UserModel } from "../../../types/user-model";
-import { useUserRow } from "../useUserRow";
+import { UserModel } from "../../../../types/user-model";
+import { useUserRow } from "../../useUserRow";
 
 interface UserRowProps {
   user: UserModel;
@@ -12,14 +12,10 @@ interface UserRowProps {
 export const UserRow: React.FC<UserRowProps> = ({
   user,
   removeUser,
-  updateUser
+  updateUser,
 }) => {
-  const {
-    currentUser,
-    onChangeAdmin,
-    onChangeAuthorized,
-    saveButtonDisabled
-  } = useUserRow(user);
+  const { currentUser, onChangeAdmin, onChangeAuthorized, saveButtonDisabled } =
+    useUserRow(user);
 
   return (
     <Tr>
