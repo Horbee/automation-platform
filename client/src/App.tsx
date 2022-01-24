@@ -24,7 +24,7 @@ function App() {
   const { isLoggedIn, logUserIn, admin } = useAuthService();
 
   useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
+    const unsub = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
           const idToken = await user.getIdToken();
@@ -45,6 +45,10 @@ function App() {
       }
       setLoading(false);
     });
+
+    return () => {
+      unsub();
+    };
     // eslint-disable-next-line
   }, []);
 
