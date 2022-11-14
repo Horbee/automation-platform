@@ -171,6 +171,7 @@ sudo systemctl restart nginx
 sudo cp ./service/cs50automation.service /etc/systemd/system/cs50automation.service
 sudo systemctl enable cs50automation.service
 sudo systemctl start cs50automation.service
+journalctl -u cs50automation.service // see logs
 ```
 
 Now the Cs50Automation app should be accessible on your network, however you wont be able to log in, since Google OAuth needs a publicly accessible URL to work.

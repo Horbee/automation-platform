@@ -6,7 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 from automation.config import Config
 from flask_marshmallow import Marshmallow
-from miio import Vacuum
+from miio import RoborockVacuum
 
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -34,7 +34,7 @@ def create_app(config_class=Config):
     ma.init_app(app)
 
     global vacuum_instance
-    vacuum_instance = Vacuum(app.config["VACUUM_IP"], app.config["VACUUM_TOKEN"])
+    vacuum_instance = RoborockVacuum(app.config["VACUUM_IP"], app.config["VACUUM_TOKEN"])
     vacuum_instance.retry_count = 20
     vacuum_instance.timeout = 0.5
 
