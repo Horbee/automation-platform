@@ -6,11 +6,11 @@
 
 # Short Description:
 
-This project is a Web Application made by me as the Final Project for Harvard's CS50 Course. It helps automating voice controlled room cleaning with a Roborock S5. This is a function, which is currnetly not supported by the Xiaom Home application or Google Home. You can start a complete home cleaning with the voice assistant, but selecting individual rooms to clean by voice was not possible.
+This project is a web application I made as the Final Project for Harvard's CS50 Course. It helps to automate voice-controlled room cleaning with a Roborock S5 vacuum cleaner. This is a feature that is not currently supported by the Xiaomi Home application or Google Home. You can use the voice assistant to start an entire house cleaning, but it was not possible to select individual rooms to clean by voice.
 
-The Application consists of a server side Flask API and client side React application. The Flask API uses a package, called [python-miio](https://pypi.org/project/python-miio/) to control the vacuum cleaner connected to your local network. The idea of the whole Stack and Technologies used in this project is to control your vacuum cleaner from anywhere outside of your network.
+The application consists of a server-side Flask API and client-side React application. The Flask API uses a package called [python-miio](https://pypi.org/project/python-miio/) to control the vacuum cleaner connected to your local network. The idea of the whole stack and technologies used in this project is to control your vacuum cleaner from anywhere outside of your network.
 
-The Application uses Google OAuth to manage users and authentication. The Voice control part is done with Google Assistant. After you set up the project and all the necessary dependencies, you can tell Google Assistant something like:
+The application uses Google OAuth to manage users and authentication. The voice control part is done using Google Assistant. After you set up the project and all the necessary dependencies, you can tell Google Assistant something like this:
 
 > "Hey Google, talk to CS50Automation and clean the kitchen."
 
